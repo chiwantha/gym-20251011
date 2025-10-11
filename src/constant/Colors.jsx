@@ -1,0 +1,16 @@
+export const Pallet = {
+  dashboardBg: "#F7F9FB",
+  navbarBg: "#FFFFFF",
+  sidebarBg: "#F1F4F8",
+  sidebarHover: "#E0E7EF",
+  sidebarActive: "#D6E4FF",
+  primary: "#3B82F6",
+  textPrimary: "#1E293B",
+  textSecondary: "#64748B",
+  border: "#E2E8F0",
+  cardBg: "#FFFFFF",
+  cardShadow: "rgba(0, 0, 0, 0.05)",
+  success: "#10B981",
+  warning: "#F59E0B",
+  error: "#EF4444",
+};
