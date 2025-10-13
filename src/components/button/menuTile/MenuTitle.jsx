@@ -11,7 +11,7 @@ const MenuTitle = ({ btn }) => {
         rounded-xl border border-[#4364BF]/40 bg-white group-hover
         hover:bg-[#4364BF] hover:border-[#4364BF]
         transition-all duration-200 shadow-sm hover:shadow-md
-        p-4 text-center cursor-pointer aspect-square"
+        p-6 text-center cursor-pointer aspect-square"
       >
         {/* Icon */}
         <div

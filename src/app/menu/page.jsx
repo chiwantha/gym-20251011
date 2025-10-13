@@ -35,13 +35,12 @@ const allMenuItems = [
   { title: "Attendance", icon: <FiCheckSquare />, path: "/reports/attendance" },
   { title: "Devices", icon: <FiCpu />, path: "/settings/devices" },
   { title: "Users", icon: <FiUser />, path: "/settings/users" },
-  { title: "Roles", icon: <FiShield />, path: "/settings/roles" },
 ];
 
 const Menu = () => {
   return (
     <div
-      className=" min-h-[calc(100vh-50px)] flex items-center justify-center
+      className=" min-h-[calc(100vh-82px)] flex items-center justify-center
       p-4"
     >
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 ">
@@ -52,7 +51,7 @@ const Menu = () => {
         rounded-xl border border-[#4364BF]/40 bg-[#4364BF] group-hover
        hover:border-[#4364BF]
         transition-all duration-200 shadow-sm hover:shadow-md
-        p-4 text-center cursor-pointer lg:col-span-5 md:col-span-3 sm:col-span-2"
+        p-8 text-center cursor-pointer lg:col-span-6 md:col-span-4 sm:col-span-3 col-span-2"
         >
           {/* Icon */}
           <div

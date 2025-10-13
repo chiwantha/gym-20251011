@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex pt-[50px]">
             <Sidebar />
-            <div className=" bg-slate-50 w-full">{children}</div>
+            <div className=" bg-slate-50 w-full p-4">{children}</div>
           </div>
           <WidthShow />
         </SidebarProvider>

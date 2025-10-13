@@ -11,7 +11,7 @@ const NavUser = () => {
           setIsOpen(!isOpen);
         }}
         className={`relative rounded-lg aspect-square h-full
-    border border-[#4364BF]/40 items-center justify-center
+     items-center justify-center
     transition-all duration-300 cursor-pointer
      flex  text-xl ${
        isOpen ? `bg-[#4364BF] text-slate-100` : `text-[#4364BF] bg-gray-200`
