@@ -13,7 +13,6 @@ import {
   FiCheckSquare,
   FiCpu,
   FiUser,
-  FiShield,
 } from "react-icons/fi";
 import { BsFillGrid1X2Fill } from "react-icons/bs";
 import Link from "next/link";
