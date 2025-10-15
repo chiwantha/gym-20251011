@@ -1,4 +1,4 @@
-import MenuTitle from "@/components/button/menuTile/MenuTitle";
+import MenuTitle from "@/components/buttons/menuTile/MenuTitle";
 import React from "react";
 import {
   FiUsers,

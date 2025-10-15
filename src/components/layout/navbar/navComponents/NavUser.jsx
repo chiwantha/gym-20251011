@@ -1,24 +1,19 @@
 "use client";
+import NavBtn from "@/components/buttons/navBtn/NavBtn";
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 
 const NavUser = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="h-[70%]">
-      <div
-        onClick={() => {
+    <div className="h-[70%] flex gap-4">
+      <NavBtn
+        icon={<FaUser />}
+        click={() => {
           setIsOpen(!isOpen);
         }}
-        className={`relative rounded-lg aspect-square h-full
-     items-center justify-center
-    transition-all duration-300 cursor-pointer
-     flex  text-xl ${
-       isOpen ? `bg-[#4364BF] text-slate-100` : `text-[#4364BF] bg-gray-200`
-     }`}
-      >
-        <FaUser />
-      </div>
+        state={isOpen}
+      />
       {isOpen && (
         <div className="absolute top-[120%] right-4 bg-white shadow-md border border-gray-300 rounded-md w-40">
           <ul className="flex flex-col">
