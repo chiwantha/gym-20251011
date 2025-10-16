@@ -13,7 +13,7 @@ const NavBtn = ({ click, link, icon, activeicon, state }) => {
     : `text-[#4364BF] bg-gray-200`;
   if (link) {
     return (
-      <Link href={link} prefetch="true" className={`${btnStyle} ${btn_face}`}>
+      <Link href={link} prefetch={true} className={`${btnStyle} ${btn_face}`}>
         <span>{icon}</span>
       </Link>
     );
