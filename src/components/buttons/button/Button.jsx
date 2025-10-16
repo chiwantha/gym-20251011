@@ -13,7 +13,7 @@ const Button = ({
   disabled,
 }) => {
   const baseClasses =
-    "rounded-lg transition-colors duration-300 font-bold flex items-center justify-center transition-all duration-300";
+    "rounded-lg transition-colors duration-300 font-bold flex items-center justify-center transition-all duration-300 whitespace-nowrap";
 
   const enabledClasses = `${
     bg || "bg-[#4364BF] hover:bg-[#38539e] text-white"

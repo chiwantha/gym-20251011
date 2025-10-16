@@ -5,7 +5,7 @@ import Link from "next/link";
 const btnStyle = `rounded-lg aspect-square h-full
      items-center justify-center
     transition-all duration-300 cursor-pointer
-     flex  text-xl  `;
+     flex  text-xl p-2 `;
 
 const NavBtn = ({ click, link, icon, activeicon, state }) => {
   const btn_face = state
