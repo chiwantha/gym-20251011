@@ -16,7 +16,7 @@ const ActionTray = ({ closeTray, state, title, data, form }) => {
         <NavBtn icon={`X`} state={state} click={() => closeTray(false)} />
       </div>
       <div className="">{data && JSON.stringify(data)}</div>
-      <div className="w-full text-center p-6 ">
+      <div className="">
         {form ? (
           form
         ) : (
