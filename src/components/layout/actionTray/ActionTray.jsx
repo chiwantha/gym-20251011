@@ -1,6 +1,6 @@
 import NavBtn from "@/components/buttons/navBtn/NavBtn";
 
-const ActionTray = ({ children, closeTray, state, title, data }) => {
+const ActionTray = ({ closeTray, state, title, data, form }) => {
   return (
     <div
       className={`fixed top-[50px] right-0 h-[calc(100vh-50px)] 
@@ -10,10 +10,21 @@ const ActionTray = ({ children, closeTray, state, title, data }) => {
         ${state ? "translate-x-0" : "translate-x-full "}`}
     >
       <div className="flex justify-between items-center h-12 border-b border-gray-300 pb-4">
-        <h2 className="text-2xl font-medium">{title || `Slide Tray`}</h2>
+        <h2 className="text-2xl font-medium text-ellipsis line-clamp-1">
+          {!data ? title || `Slide Tray` : `Edit ${data?.name}`}
+        </h2>
         <NavBtn icon={`X`} state={state} click={() => closeTray(false)} />
       </div>
-      {children}
+      <div className="">{data && JSON.stringify(data)}</div>
+      <div className="w-full text-center p-6 ">
+        {form ? (
+          form
+        ) : (
+          <span className=" ">
+            No {`${data ? `Edit` : `Create`} ${title}`} Form Found !
+          </span>
+        )}
+      </div>
     </div>
   );
 };

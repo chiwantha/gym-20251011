@@ -1,10 +1,7 @@
 "use client";
-import { useState } from "react";
 import Button from "../buttons/button/Button";
-import ActionTray from "../layout/actionTray/ActionTray";
 
-const DataGrid = ({ title, children }) => {
-  const [trayOpen, setTrayOpen] = useState(false);
+const DataGrid = ({ title, children, newClick }) => {
   return (
     <div className="flex flex-col gap-4">
       {/* Action Strip */}
@@ -23,7 +20,7 @@ const DataGrid = ({ title, children }) => {
             <Button
               title="Add New"
               pd="py-2 px-4 w-full sm:w-auto"
-              click={() => setTrayOpen(!trayOpen)}
+              click={() => newClick({ action: "new" })}
               className="whitespace-nowrap"
             />
           </div>
@@ -43,7 +40,7 @@ const DataGrid = ({ title, children }) => {
           <Button
             title="Add New"
             pd="py-2 px-4 w-full sm:w-auto"
-            click={() => setTrayOpen(!trayOpen)}
+            click={() => newClick({ action: "new" })}
             className="whitespace-nowrap"
           />
         </div>
@@ -55,7 +52,6 @@ const DataGrid = ({ title, children }) => {
       >
         {children}
       </div>
-      <ActionTray state={trayOpen} closeTray={setTrayOpen} />
     </div>
   );
 };

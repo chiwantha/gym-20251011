@@ -1,15 +1,11 @@
-"use client";
 import NavBtn from "@/components/buttons/navBtn/NavBtn";
 import { MdInsertChart } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
-import { useState } from "react";
-import ActionTray from "@/components/layout/actionTray/ActionTray";
 
 const subClass = ` text-gray-600  `;
 
-const MstMemberCard = ({ props }) => {
-  const [trayOpens, setTrayOpens] = useState(false);
+const MstMemberCard = ({ props, onEdit }) => {
   const { id, name, gender, dob, phone } = props || {};
   return (
     <div className=" mt-10">
@@ -20,7 +16,7 @@ const MstMemberCard = ({ props }) => {
           <NavBtn
             icon={<MdEdit />}
             click={() => {
-              setTrayOpens(true);
+              onEdit({ action: `edit`, ...props });
             }}
           />
         </div>
@@ -36,12 +32,6 @@ const MstMemberCard = ({ props }) => {
           <span className={`${subClass}`}>{phone || `07xxxxxxxx`}</span>
         </div>
       </div>
-      <ActionTray
-        state={trayOpens}
-        closeTray={setTrayOpens}
-        title={`Edit Member`}
-        children={<span>{JSON.stringify(props)}</span>}
-      />
     </div>
   );
 };
