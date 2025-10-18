@@ -3,6 +3,7 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import Button from "@/components/buttons/button/Button";
+import Image from "next/image";
 
 const videoConstraints = {
   width: 720,
@@ -20,7 +21,7 @@ const ImageInput = ({ value = "", onChange }) => {
   useEffect(() => {
     if (value && typeof value === "string" && value.startsWith("http")) {
       setPreview(value);
-    } else {
+    } else if (value === "") {
       setPreview(null);
     }
   }, [value]);
@@ -56,9 +57,9 @@ const ImageInput = ({ value = "", onChange }) => {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col sm:flex-row gap-4">
       {/* Image preview or webcam */}
-      <div className="h-52 aspect-square rounded-lg bg-gray-200 overflow-hidden relative flex items-center justify-center border border-gray-300">
+      <div className="h-52 w-52 aspect-square rounded-lg bg-gray-200 overflow-hidden relative flex items-center justify-center border border-gray-300">
         {isCam ? (
           <Webcam
             ref={webcamRef}
@@ -68,7 +69,8 @@ const ImageInput = ({ value = "", onChange }) => {
             className="absolute top-0 left-0 w-full h-full object-cover"
           />
         ) : preview ? (
-          <img
+          <Image
+            fill
             src={preview}
             alt="Preview"
             className="absolute top-0 left-0 w-full h-full object-cover"
@@ -80,41 +82,48 @@ const ImageInput = ({ value = "", onChange }) => {
 
       {/* Controls */}
       <div className="flex flex-col justify-center gap-2">
-        <div className="flex gap-2">
+        <div className="w-fit flex flex-col gap-2">
+          {/* Cam Controls */}
+          <div className="flex gap-2">
+            <Button
+              title={isCam ? "Close Camera" : "Use Camera"}
+              pd="px-4 py-2"
+              bg={
+                isCam
+                  ? `bg-red-400 hover:bg-red-600 text-white`
+                  : `bg-green-400 text-white hover:bg-green-600`
+              }
+              click={() => setIsCam((prev) => !prev)}
+            />
+            <Button
+              title="Capture"
+              pd="px-4 py-2"
+              click={capture}
+              disabled={!isCam}
+            />
+          </div>
           <Button
-            title={isCam ? "Close Camera" : "Use Camera"}
+            title="Upload Image"
             pd="px-4 py-2"
-            click={() => setIsCam((prev) => !prev)}
+            click={() => fileInputRef.current?.click()}
           />
-          <Button
-            title="Capture"
-            pd="px-4 py-2"
-            click={capture}
-            disabled={!isCam}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
           />
+
+          {preview && (
+            <Button
+              title="Clear"
+              pd="px-4 py-2"
+              click={clearImage}
+              bg="bg-red-400 hover:bg-red-600 text-white"
+            />
+          )}
         </div>
-
-        <Button
-          title="Upload Image"
-          pd="px-4 py-2"
-          click={() => fileInputRef.current?.click()}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-        />
-
-        {preview && (
-          <Button
-            title="Clear"
-            pd="px-4 py-2"
-            click={clearImage}
-            className="bg-red-500 text-white"
-          />
-        )}
       </div>
     </div>
   );

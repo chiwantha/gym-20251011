@@ -2,7 +2,11 @@ import React from "react";
 
 const WidthShow = () => {
   return (
-    <div className="fixed bottom-0 right-0 m-3 px-2 py-1 text-xs rounded-md bg-gray-800 text-white opacity-75 select-none">
+    <div
+      className="fixed bottom-0 right-0 m-3 px-2 py-1 
+    text-xs rounded-md bg-gray-800 z-50
+     text-white opacity-75 select-none"
+    >
       <span className="block sm:hidden">xs</span>
       <span className="hidden sm:block md:hidden">sm</span>
       <span className="hidden md:block lg:hidden">md</span>
