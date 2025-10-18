@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import TextInput from "../input/TextInput";
 import Button from "@/components/buttons/button/Button";
 import Separator from "@/components/layout/separator/Separator";
+import ImageInput from "../input/ImageInput";
 
 const MembersForm = ({ data }) => {
   const [formData, setFormData] = useState({
@@ -162,7 +163,7 @@ const MembersForm = ({ data }) => {
       {/* member image */}
       <div className="flex flex-col gap-4">
         <Separator label={`Member Image`} />
-        <div className="flex gap-4">
+        {/* <div className="flex gap-4">
           <div className="h-52 aspect-square rounded-lg bg-gray-200" />
           <div className="flex flex-col justify-center gap-2">
             <div className="flex gap-2">
@@ -171,7 +172,11 @@ const MembersForm = ({ data }) => {
             </div>
             <Button title="Upload Image" pd={`px-4 py-2`} />
           </div>
-        </div>
+        </div> */}
+        <ImageInput
+          onChange={(val) => handleChange("image", val)}
+          value={formData.image}
+        />
       </div>
 
       <div className="flex gap-4">

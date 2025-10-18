@@ -86,7 +86,7 @@ const Sidebar = () => {
   return (
     <div
       className={`fixed  top-[50px] md:sticky left-0  overflow-y-auto
-            h-[calc(100vh-50px)] bg-gray-100 w-64 border-r
+            h-[calc(100vh-50px)] bg-gray-100 w-64 border-r z-50
              border-[#4364BF]/40 transition-all duration-300
              ${
                isOpen
