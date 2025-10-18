@@ -20,6 +20,7 @@ const MembersForm = ({ data }) => {
     image: data?.image || "",
     finger_index: data?.finger_index || "",
     finger_image: data?.finger_img || "",
+    rfid: data?.rfid || "",
     created_at: data?.created_at || "",
     state: data?.state || 1,
   });
@@ -39,6 +40,7 @@ const MembersForm = ({ data }) => {
       image: data?.image || "",
       finger_index: data?.finger_index || "",
       finger_image: data?.finger_img || "",
+      rfid: data?.rfid || "",
       created_at: data?.created_at || "",
       state: data?.state || 1,
     });
@@ -58,6 +60,7 @@ const MembersForm = ({ data }) => {
       image: "",
       finger_index: "",
       finger_image: "",
+      rfid: "",
       created_at: "",
       state: 1,
     });
