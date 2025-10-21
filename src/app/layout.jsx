@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/navbar/Navbar";
 import Sidebar from "@/components/layout/sidebar/Sidebar";
 import WidthShow from "@/components/layout/widthShow/WidthShow";
 import { SidebarProvider } from "@/context/SidebarContext";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
           </div>
           <WidthShow />
         </SidebarProvider>
+        <ToastContainer />
       </body>
     </html>
   );

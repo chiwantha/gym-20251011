@@ -17,48 +17,64 @@ const ImageInput = ({ value = "", onChange }) => {
   const webcamRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // When editing (form has existing image URL)
+  // Load existing image (edit mode)
   useEffect(() => {
-    if (value && typeof value === "string" && value.startsWith("http")) {
+    if (!value) {
+      setPreview(null);
+      return;
+    }
+
+    // If value is a URL string (e.g., from server)
+    if (
+      typeof value === "string" &&
+      (value.startsWith("http") || value.startsWith("/"))
+    ) {
       setPreview(value);
-    } else if (value === "") {
+    }
+    // If value is a File (e.g., from upload or camera)
+    else if (value instanceof File) {
+      setPreview(URL.createObjectURL(value));
+    } else {
       setPreview(null);
     }
   }, [value]);
 
-  // Capture from webcam
+  // Capture from webcam (return File)
   const capture = useCallback(() => {
     if (!webcamRef.current) return;
     const imageSrc = webcamRef.current.getScreenshot();
     if (!imageSrc) return;
 
-    setPreview(imageSrc);
-    setIsCam(false);
-    onChange?.(imageSrc); // send base64 to parent
+    fetch(imageSrc)
+      .then((res) => res.blob())
+      .then((blob) => {
+        const file = new File([blob], `capture_${Date.now()}.jpg`, {
+          type: blob.type,
+        });
+        const previewUrl = URL.createObjectURL(file);
+        setPreview(previewUrl);
+        onChange?.(file); // Return File
+        setIsCam(false);
+      });
   }, [onChange]);
 
-  // Handle upload from file
+  // Handle file upload
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result);
-      onChange?.(reader.result);
-    };
-    reader.readAsDataURL(file);
+    setPreview(URL.createObjectURL(file));
+    onChange?.(file); // Return File
   };
 
   // Clear image
   const clearImage = () => {
     setPreview(null);
-    onChange?.("");
+    onChange?.(null);
   };
 
   return (
     <div className="flex flex-col sm:flex-row gap-4">
-      {/* Image preview or webcam */}
+      {/* Preview / Webcam */}
       <div className="h-52 w-52 aspect-square rounded-lg bg-gray-200 overflow-hidden relative flex items-center justify-center border border-gray-300">
         {isCam ? (
           <Webcam
@@ -83,17 +99,16 @@ const ImageInput = ({ value = "", onChange }) => {
       {/* Controls */}
       <div className="flex flex-col justify-center gap-2">
         <div className="w-fit flex flex-col gap-2">
-          {/* Cam Controls */}
           <div className="flex gap-2">
             <Button
               title={isCam ? "Close Camera" : "Use Camera"}
               pd="px-4 py-2"
               bg={
                 isCam
-                  ? `bg-red-400 hover:bg-red-600 text-white`
-                  : `bg-green-400 text-white hover:bg-green-600`
+                  ? "bg-red-400 hover:bg-red-600 text-white"
+                  : "bg-green-400 hover:bg-green-600 text-white"
               }
-              click={() => setIsCam((prev) => !prev)}
+              click={() => setIsCam((p) => !p)}
             />
             <Button
               title="Capture"
@@ -102,6 +117,7 @@ const ImageInput = ({ value = "", onChange }) => {
               disabled={!isCam}
             />
           </div>
+
           <Button
             title="Upload Image"
             pd="px-4 py-2"

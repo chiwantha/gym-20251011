@@ -1,77 +1,125 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import TextInput from "../input/TextInput";
 import Button from "@/components/buttons/button/Button";
 import Separator from "@/components/layout/separator/Separator";
 import ImageInput from "../input/ImageInput";
+import { toast } from "react-toastify";
+
+async function getData(member_id) {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/master/members/form?member_id=${member_id}`
+    );
+
+    if (!res.ok) {
+      return { member: [] };
+    }
+
+    return res.json();
+  } catch (err) {
+    console.error(`Error Fetching Data`, err);
+    return { member: [] };
+  }
+}
+
+const initialFormData = {
+  id: "",
+  name: "",
+  gender: "",
+  dob: "",
+  phone: "",
+  whatsapp: "",
+  send: "",
+  email: "",
+  address: "",
+  image: "",
+};
 
 const MembersForm = ({ data }) => {
-  const [formData, setFormData] = useState({
-    id: data?.id || "",
-    name: data.name || "",
-    gender: data?.gender || "",
-    dob: data?.dob || "",
-    phone: data?.phone || "",
-    whatsapp: data?.whatsapp || "",
-    send: data?.send || "",
-    email: data?.email || "",
-    address: data?.address || "",
-    image: data?.image || "",
-    finger_index: data?.finger_index || "",
-    finger_image: data?.finger_img || "",
-    rfid: data?.rfid || "",
-    created_at: data?.created_at || "",
-    state: data?.state || 1,
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
-  // This effect will update formData if `data` changes
   useEffect(() => {
-    setFormData({
-      id: data?.id || "",
-      name: data?.name || "",
-      gender: data?.gender || "",
-      dob: data?.dob || "",
-      phone: data?.phone || "",
-      whatsapp: data?.whatsapp || "",
-      send: data?.send || "",
-      email: data?.email || "",
-      address: data?.address || "",
-      image: data?.image || "",
-      finger_index: data?.finger_index || "",
-      finger_image: data?.finger_img || "",
-      rfid: data?.rfid || "",
-      created_at: data?.created_at || "",
-      state: data?.state || 1,
-    });
+    const fetchData = async () => {
+      const result = await getData(data?.id);
+      console.log(result);
+      setFormData({
+        id: data?.id || `create`,
+        name: data?.name || "",
+        gender: data?.gender || "",
+        dob: data?.dob || "",
+        phone: data?.phone || "",
+        whatsapp: data?.whatsapp || "",
+        send: data?.send || "",
+        email: data?.email || "",
+        address: data?.address || "",
+        image: data?.image || "",
+      });
+    };
+
+    fetchData();
   }, [data]);
 
   const clearFormData = () => {
-    setFormData({
-      id: "",
-      name: "",
-      gender: "",
-      dob: "",
-      phone: "",
-      whatsapp: "",
-      send: "",
-      email: "",
-      address: "",
-      image: "",
-      finger_index: "",
-      finger_image: "",
-      rfid: "",
-      created_at: "",
-      state: 1,
-    });
+    setFormData(initialFormData);
   };
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = () => {
-    alert(JSON.stringify(formData));
+  const validateInputs = () => {
+    const fields = ["id", "name", "gender", "dob", "phone", "image", "send"];
+
+    const hasEmpty = fields.some(
+      (field) => formData[field] === "" || formData[field] === null
+    );
+
+    if (hasEmpty) {
+      toast.warning("Data Missing!");
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (validateInputs()) {
+        return;
+      }
+
+      const uploadData = new FormData();
+      uploadData.append("id", formData.id);
+      uploadData.append("name", formData.name);
+      uploadData.append("gender", formData.gender);
+      uploadData.append("dob", formData.dob);
+      uploadData.append("phone", formData.phone);
+      uploadData.append("whatsapp", formData.whatsapp);
+      uploadData.append("send", formData.send);
+      uploadData.append("email", formData.email);
+      uploadData.append("address", formData.address);
+      uploadData.append("image", formData.image);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/master/members/form`,
+        {
+          method: "POST",
+          body: uploadData,
+        }
+      );
+
+      if (!res.ok) {
+        console.log("Error Creating Member !");
+        toast.error(`Create Failed !`);
+        return;
+      }
+
+      toast.success(`Create Ok !`);
+      return;
+    } catch (err) {
+      toast.error(`Submission Fialed !`, err);
+    }
   };
 
   return (
@@ -104,14 +152,6 @@ const MembersForm = ({ data }) => {
             value={formData.dob}
             onChange={(val) => handleChange("dob", val)}
           />
-
-          <TextInput
-            type="text"
-            label="Phone"
-            placeholder="Enter phone number"
-            value={formData.phone}
-            onChange={(val) => handleChange("phone", val)}
-          />
         </div>
       </div>
 
@@ -142,7 +182,7 @@ const MembersForm = ({ data }) => {
             { value: 0, label: "SMS" },
             { value: 1, label: "WhatsApp" },
           ]}
-          value={formData.gender}
+          value={formData.send}
           onChange={(val) => handleChange("send", val)}
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -166,20 +206,14 @@ const MembersForm = ({ data }) => {
       {/* member image */}
       <div className="flex flex-col gap-4">
         <Separator label={`Member Image`} />
-        {/* <div className="flex gap-4">
-          <div className="h-52 aspect-square rounded-lg bg-gray-200" />
-          <div className="flex flex-col justify-center gap-2">
-            <div className="flex gap-2">
-              <Button title="Use Camera" pd={`px-4 py-2`} />
-              <Button title="Capture" pd={`px-4 py-2`} />
-            </div>
-            <Button title="Upload Image" pd={`px-4 py-2`} />
-          </div>
-        </div> */}
         <ImageInput
           onChange={(val) => handleChange("image", val)}
           value={formData.image}
         />
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <Separator label={`Access Control`} />
       </div>
 
       <div className="flex gap-4">

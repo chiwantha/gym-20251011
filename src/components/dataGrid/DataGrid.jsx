@@ -13,6 +13,7 @@ const DataGrid = ({
   newClick,
   searchKeys = [],
   itemsPerPage = 10,
+  pending = false,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -125,22 +126,26 @@ const DataGrid = ({
       </div>
 
       {/* Grid */}
-      <div
-        className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3
+      {!pending ? (
+        <div
+          className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3
        2xl:grid-cols-5 transition-all duration-300"
-      >
-        {displayedChildren.length > 0 ? (
-          displayedChildren
-        ) : (
-          <div className="col-span-full text-center text-gray-500 py-10">
-            No results found
-          </div>
-        )}
-      </div>
+        >
+          {displayedChildren.length > 0 ? (
+            displayedChildren
+          ) : (
+            <div className="col-span-full text-center text-gray-500 py-10">
+              No results found
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="flex items-center justify-center py-10">Loading !</div>
+      )}
 
       {/* Pagination Bar */}
       {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 mt-6 h-[35px] flex-wrap">
+        <div className="flex  items-center gap-2 h-[35px] flex-wrap">
           {/* Prev */}
           <NavBtn
             icon={<IoIosArrowBack />}
